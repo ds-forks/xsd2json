@@ -1,15 +1,20 @@
-from pip.req import parse_requirements
 from setuptools import setup
 
-install_requirements = parse_requirements('./requirements.txt', session=False)
-requirements = [str(ir.req) for ir in install_requirements]
+from pipenv.project import Project
+from pipenv.utils import convert_deps_to_pip
+
+pfile = Project(chdir=False).parsed_pipfile
+requirements = convert_deps_to_pip(pfile['packages'], r=False)
+# test_requirements = convert_deps_to_pip(pfile['dev-packages'], r=False)
 
 setup(
-    name='xsdtojson',
-    version='0.1',
+    name='xsd2json',
+    version='0.1.0',
     description='Convert XSD to JSON Schema',
     author='Ben Scott',
+    maintainer='dhilipsiva'
     author_email='ben@benscott.co.uk',
+    maintainer_email='dhilipsiva@gmail.com'
     packages=['xsdtojson'],
     install_requires=requirements,
     entry_points={
