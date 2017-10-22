@@ -15,7 +15,7 @@ setup(
     maintainer='dhilipsiva'
     author_email='ben@benscott.co.uk',
     maintainer_email='dhilipsiva@gmail.com'
-    packages=['xsdtojson'],
+    packages=['xsd2json'],
     install_requires=requirements,
     entry_points={
         'console_scripts': ['xsdtojson=xsdtojson.cli:main'],

@@ -3,10 +3,10 @@
 """
 Created by Ben Scott on '25/01/2017'.
 """
-from xsdtojson.xsd_parser import XSDParser
+from xsd2json.xsd_parser import XSDParser
 
 
-def xsd_to_json_schema(xsd_src):
+def xsd2json(xsd_src):
     """
     Helper function for instigating XSDParser and parsing file
     :param xsd_src: Path to XSD file / string

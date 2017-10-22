@@ -32,7 +32,8 @@ class XSDParser:
         """ Build a list of all type extensions which can be extended by the main class
         For example - http://www.w3schools.com/xml/el_complextype.asp
         """
-        for complex_type_element in self.root.findall("xs:complexType", namespaces=self.namespaces):
+        for complex_type_element in self.root.findall(
+                "xs:complexType", namespaces=self.namespaces):
             name = complex_type_element.attrib['name']
             schema = {}
             self.parse_element_recurse(complex_type_element, schema)
@@ -54,9 +55,11 @@ class XSDParser:
         # As per XSD spec, minOccurs defaults to 1, so unless
         # otherwise stated, all fields are required
         min_occurs = int(element.attrib.get('minOccurs', 1))
-        nillable = strtobool(element.attrib.get('nillable')) if element.attrib.get('nillable') else False
+        nillable = strtobool(element.attrib.get('nillable')) if \
+            element.attrib.get('nillable') else False
 
-        # If element has an extension base, set properties to those of the extension
+        # If element has an extension base,
+        # set properties to those of the extension
         if element_base:
             schema.update(self.type_extensions[element_base])
         # If this element has a name, add it to the schema tree
@@ -66,7 +69,8 @@ class XSDParser:
             # If this element has a type, it needs to be an item in the schema
             if element_type:
                 try:
-                    schema['properties'][element_name] = self.type_extensions[element_type]
+                    schema['properties'][element_name] = \
+                        self.type_extensions[element_type]
                 except KeyError:
                     schema['properties'][element_name] = {
                         'type': self.xsd_to_json_schema_type(element_type)
@@ -75,7 +79,8 @@ class XSDParser:
                     schema.setdefault('required', []).append(element_name)
             # If there's no element type, use it to build the schema tree
             else:
-                # If min occurs or nillable is set, then make this element required
+                # If min occurs or nillable is set,
+                # then make this element required
                 if min_occurs > 0 or nillable:
                     schema.setdefault('required', []).append(element_name)
                 schema['properties'][element_name] = OrderedDict()
@@ -94,7 +99,7 @@ class XSDParser:
         """
         If the top level properties dict consists of just one item, and has
         lots of child properties, flatten property dict
-        TODO: This is to keep the schema the same as other plugins - is it needed?
+        TODO: Keep the schema the same as other plugins - is it needed?
         :param schema:
         :return:
         """
@@ -113,11 +118,14 @@ class XSDParser:
         """
         schema = OrderedDict()
         # Starting point: all elements in the root of the document
-        # This allows us to exclude complexType used as named types (e.g. tests/person.xsd)
-        for element in self.root.findall("xs:element", namespaces=self.namespaces):
+        # This allows us to exclude complexType
+        # used as named types (e.g. tests/person.xsd)
+        for element in self.root.findall(
+                "xs:element", namespaces=self.namespaces):
             self.parse_element_recurse(element, schema)
 
-        # Flatten the schema - so if there's just one element at the root, this is removed
+        # Flatten the schema
+        # so if there's just one element at the root, this is removed
         schema = self.flatten_schema(schema)
         # Set schema
         schema['schema'] = 'http://json-schema.org/schema#'

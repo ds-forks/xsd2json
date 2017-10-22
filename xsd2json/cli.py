@@ -1,6 +1,6 @@
 import click
 from pygments import highlight, lexers, formatters
-from xsdtojson import xsd_to_json_schema
+from xsd2json import xsd2json
 
 
 @click.command()
@@ -8,10 +8,12 @@ from xsdtojson import xsd_to_json_schema
 @click.option('--pretty', '-p', is_flag=True)
 def main(xsd_file, pretty):
     """ CLI interface for parsing XSD file """
-    json_schema = xsd_to_json_schema(xsd_file)
+    json_schema = xsd2json(xsd_file)
     if pretty:
-        json_schema = highlight(json_schema, lexers.JsonLexer(), formatters.TerminalFormatter())
+        json_schema = highlight(
+            json_schema, lexers.JsonLexer(), formatters.TerminalFormatter())
     print(json_schema)
+
 
 if __name__ == '__main__':
     main()
