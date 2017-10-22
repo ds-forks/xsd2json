@@ -9,7 +9,7 @@ requirements = convert_deps_to_pip(pfile['packages'], r=False)
 
 setup(
     name='xsd2json',
-    version='0.1.0',
+    version='0.2.0',
     description='Convert XSD to JSON Schema',
     author='Ben Scott',
     maintainer='dhilipsiva'
